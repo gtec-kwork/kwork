@@ -619,7 +619,7 @@ let uploadType=null;
   document.getElementById('api-url-login').value=API_URL;
   const d=new Date();
   document.getElementById('h-date').textContent=d.getFullYear()+'.'+(d.getMonth()+1).toString().padStart(2,'0')+'.'+d.getDate().toString().padStart(2,'0');
-  const base=window.location.href.split('#')[0];
+  const base='https://gtec-kwork.github.io/kwork/';
   document.getElementById('url-c').textContent=base+'#reg-company';
   document.getElementById('url-s').textContent=base+'#reg-student';
   document.getElementById('url-m').textContent=base+'#myinfo';
@@ -998,84 +998,76 @@ function downloadCard(type,idx){
 function printResume(idx){
   const s=studentsData[idx];if(!s)return;
   const w=window.open('','_blank','width=800,height=900');
-  const ph=s['사진URL']?`<img src="${s['사진URL']}" style="width:80px;height:100px;object-fit:cover;border-radius:6px;border:2px solid rgba(255,255,255,.4);">`:'<div style="width:80px;height:100px;border-radius:6px;border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:32px;color:rgba(255,255,255,.6);">👤</div>';
-  w.document.write(`<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>이력서 - ${s['성명(한국어)']||''}</title><style>
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{font-family:"맑은 고딕","Apple SD Gothic Neo",sans-serif;background:#fff;color:#111;}
-    .header{background:#1a5fa8;padding:20px 24px;display:flex;align-items:flex-start;gap:16px;color:#fff;}
-    .header-info{flex:1;}
-    .name{font-size:22px;font-weight:700;margin-bottom:4px;}
-    .name-en{font-size:13px;color:rgba(255,255,255,.8);margin-bottom:8px;}
-    .tags{display:flex;flex-wrap:wrap;gap:5px;}
-    .tag{background:rgba(255,255,255,.2);font-size:11px;padding:2px 8px;border-radius:20px;}
-    .stamp{font-size:11px;color:rgba(255,255,255,.5);margin-top:8px;}
-    .body{padding:16px 24px;}
-    .sec-title{font-size:12px;font-weight:700;color:#1a5fa8;background:#e8f0fb;padding:4px 8px;border-radius:5px;margin:14px 0 8px;display:flex;align-items:center;gap:4px;}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-    .row{display:flex;gap:6px;font-size:12px;margin-bottom:4px;}
-    .lbl{color:#666;min-width:72px;flex-shrink:0;}
-    .val{color:#111;font-weight:600;}
-    .full{grid-column:1/-1;}
-    .intro{background:#f5f5f5;border-radius:6px;padding:10px;font-size:12px;line-height:1.7;}
-    .footer{border-top:1px solid #e0e0e0;padding:10px 24px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#888;}
-    .logo-mark{display:inline-block;background:#1a5fa8;color:#fff;font-weight:700;font-size:9px;padding:2px 5px;border-radius:3px;margin-right:5px;}
-    hr{border:none;border-top:0.5px solid #e0e0e0;margin:10px 0;}
-    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}
-  </style></head><body>
-  <div class="header">
-    ${ph}
-    <div class="header-info">
-      <div class="name">${s['성명(한국어)']||''} <span style="font-size:15px;font-weight:400;">${s['성명(영문)']||''}</span></div>
-      <div class="name-en">학번: ${s['학번']||'-'} &nbsp;|&nbsp; ${s['학과']||''} &nbsp;|&nbsp; ${s['재학상태']||''}</div>
-      <div class="tags">
-        <span class="tag">${s['현재비자상태']||''}</span>
-        <span class="tag">${s['한국어(TOPIK)']||'TOPIK 없음'}</span>
-        <span class="tag">${s['국적']||''}</span>
-        ${s['취업가능시기']?'<span class="tag">'+s['취업가능시기']+' 취업가능</span>':''}
-      </div>
-      <div class="stamp">연락처: ${s['연락처']||''} &nbsp;|&nbsp; 이메일: ${s['이메일']||''}</div>
-    </div>
-  </div>
-  <div class="body">
-    <div class="sec-title">📚 학업 정보</div>
-    <div class="grid">
-      <div class="row"><span class="lbl">학과</span><span class="val">${s['학과']||'-'}</span></div>
-      <div class="row"><span class="lbl">재학상태</span><span class="val">${s['재학상태']||'-'}</span></div>
-      <div class="row"><span class="lbl">학점</span><span class="val">${s['학점']||'-'}</span></div>
-      <div class="row"><span class="lbl">생년월일</span><span class="val">${s['생년월일']||'-'}</span></div>
-      ${s['졸업예정일']?'<div class="row full"><span class="lbl">졸업예정일</span><span class="val">'+s['졸업예정일']+'</span></div>':''}
-    </div>
-    <hr>
-    <div class="sec-title">🌐 언어 능력</div>
-    <div class="grid">
-      <div class="row"><span class="lbl">한국어</span><span class="val">${s['한국어(TOPIK)']||'없음'}</span></div>
-      <div class="row"><span class="lbl">영어</span><span class="val">${s['영어능력']||'-'}</span></div>
-      ${s['기타언어']?'<div class="row full"><span class="lbl">기타언어</span><span class="val">'+s['기타언어']+'</span></div>':''}
-    </div>
-    <hr>
-    <div class="sec-title">🏆 자격증 및 기술</div>
-    <div class="row"><span class="lbl">보유자격증</span><span class="val">${s['보유자격증']||'-'}</span></div>
-    <div class="row"><span class="lbl">기술·역량</span><span class="val">${s['기술및역량']||'-'}</span></div>
-    <hr>
-    <div class="sec-title">🎯 취업 희망</div>
-    <div class="grid">
-      <div class="row"><span class="lbl">희망직종</span><span class="val">${s['희망직종']||'-'}</span></div>
-      <div class="row"><span class="lbl">희망급여</span><span class="val">${s['희망급여(만원/월)']?s['희망급여(만원/월)']+'만원/월':'-'}</span></div>
-      <div class="row"><span class="lbl">희망지역</span><span class="val">${s['희망근무지역']||'-'}</span></div>
-      <div class="row"><span class="lbl">취업가능</span><span class="val">${s['취업가능시기']||'-'}</span></div>
-    </div>
-    ${s['자기소개']?'<hr><div class="sec-title">✏️ 자기소개</div><div class="intro">'+s['자기소개']+'</div>':''}
-  </div>
-  <div class="footer">
-    <span><span class="logo-mark">GTEC</span>경기과학기술대학교 외국인 유학생 취업연계 시스템</span>
-    <span>출력일: ${new Date().toLocaleDateString('ko-KR')}</span>
-  </div>
-  <script>window.onload=()=>window.print();</script>
-  </body></html>`);
+  const ph=s['사진URL']?'<img src="'+s['사진URL']+'" style="width:80px;height:100px;object-fit:cover;border-radius:6px;border:2px solid rgba(255,255,255,.4);">'
+    :'<div style="width:80px;height:100px;border-radius:6px;border:2px solid rgba(255,255,255,.4);background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:32px;color:rgba(255,255,255,.6);">👤</div>';
+  const gradRow=s['졸업예정일']?'<div class="row full"><span class="lbl">졸업예정일</span><span class="val">'+s['졸업예정일']+'</span></div>':'';
+  const langRow=s['기타언어']?'<div class="row full"><span class="lbl">기타언어</span><span class="val">'+s['기타언어']+'</span></div>':'';
+  const availTag=s['취업가능시기']?'<span class="tag">'+s['취업가능시기']+' 취업가능</span>':'';
+  const salaryVal=s['희망급여(만원/월)']?s['희망급여(만원/월)']+'만원/월':'-';
+  const introSection=s['자기소개']?'<hr><div class="sec-title">✏️ 자기소개</div><div class="intro">'+s['자기소개']+'</div>':'';
+  const html='<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><title>이력서 - '+s['성명(한국어)']+'</title><style>'
+    +'*{box-sizing:border-box;margin:0;padding:0;}'
+    +'body{font-family:"맑은 고딕","Apple SD Gothic Neo",sans-serif;background:#fff;color:#111;}'
+    +'.header{background:#1a5fa8;padding:20px 24px;display:flex;align-items:flex-start;gap:16px;color:#fff;}'
+    +'.header-info{flex:1;}'
+    +'.name{font-size:22px;font-weight:700;margin-bottom:4px;}'
+    +'.name-en{font-size:13px;color:rgba(255,255,255,.8);margin-bottom:8px;}'
+    +'.tags{display:flex;flex-wrap:wrap;gap:5px;}'
+    +'.tag{background:rgba(255,255,255,.2);font-size:11px;padding:2px 8px;border-radius:20px;}'
+    +'.stamp{font-size:11px;color:rgba(255,255,255,.5);margin-top:8px;}'
+    +'.body{padding:16px 24px;}'
+    +'.sec-title{font-size:12px;font-weight:700;color:#1a5fa8;background:#e8f0fb;padding:4px 8px;border-radius:5px;margin:14px 0 8px;}'
+    +'.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}'
+    +'.row{display:flex;gap:6px;font-size:12px;margin-bottom:4px;}'
+    +'.lbl{color:#666;min-width:72px;flex-shrink:0;}'
+    +'.val{color:#111;font-weight:600;}'
+    +'.full{grid-column:1/-1;}'
+    +'.intro{background:#f5f5f5;border-radius:6px;padding:10px;font-size:12px;line-height:1.7;}'
+    +'.footer{border-top:1px solid #e0e0e0;padding:10px 24px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#888;}'
+    +'.logo-mark{display:inline-block;background:#1a5fa8;color:#fff;font-weight:700;font-size:9px;padding:2px 5px;border-radius:3px;margin-right:5px;}'
+    +'hr{border:none;border-top:0.5px solid #e0e0e0;margin:10px 0;}'
+    +'@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}'
+    +'</style></head><body>'
+    +'<div class="header">'+ph
+    +'<div class="header-info">'
+    +'<div class="name">'+s['성명(한국어)']+' <span style="font-size:15px;font-weight:400;">'+s['성명(영문)']+'</span></div>'
+    +'<div class="name-en">학번: '+(s['학번']||'-')+' &nbsp;|&nbsp; '+(s['학과']||'')+' &nbsp;|&nbsp; '+(s['재학상태']||'')+'</div>'
+    +'<div class="tags"><span class="tag">'+(s['현재비자상태']||'')+'</span><span class="tag">'+(s['한국어(TOPIK)']||'TOPIK 없음')+'</span><span class="tag">'+(s['국적']||'')+'</span>'+availTag+'</div>'
+    +'<div class="stamp">연락처: '+(s['연락처']||'')+' &nbsp;|&nbsp; 이메일: '+(s['이메일']||'')+'</div>'
+    +'</div></div>'
+    +'<div class="body">'
+    +'<div class="sec-title">📚 학업 정보</div>'
+    +'<div class="grid">'
+    +'<div class="row"><span class="lbl">학과</span><span class="val">'+(s['학과']||'-')+'</span></div>'
+    +'<div class="row"><span class="lbl">재학상태</span><span class="val">'+(s['재학상태']||'-')+'</span></div>'
+    +'<div class="row"><span class="lbl">학점</span><span class="val">'+(s['학점']||'-')+'</span></div>'
+    +'<div class="row"><span class="lbl">생년월일</span><span class="val">'+(s['생년월일']||'-')+'</span></div>'
+    +gradRow+'</div><hr>'
+    +'<div class="sec-title">🌐 언어 능력</div>'
+    +'<div class="grid">'
+    +'<div class="row"><span class="lbl">한국어</span><span class="val">'+(s['한국어(TOPIK)']||'없음')+'</span></div>'
+    +'<div class="row"><span class="lbl">영어</span><span class="val">'+(s['영어능력']||'-')+'</span></div>'
+    +langRow+'</div><hr>'
+    +'<div class="sec-title">🏆 자격증 및 기술</div>'
+    +'<div class="row"><span class="lbl">보유자격증</span><span class="val">'+(s['보유자격증']||'-')+'</span></div>'
+    +'<div class="row"><span class="lbl">기술·역량</span><span class="val">'+(s['기술및역량']||'-')+'</span></div><hr>'
+    +'<div class="sec-title">🎯 취업 희망</div>'
+    +'<div class="grid">'
+    +'<div class="row"><span class="lbl">희망직종</span><span class="val">'+(s['희망직종']||'-')+'</span></div>'
+    +'<div class="row"><span class="lbl">희망급여</span><span class="val">'+salaryVal+'</span></div>'
+    +'<div class="row"><span class="lbl">희망지역</span><span class="val">'+(s['희망근무지역']||'-')+'</span></div>'
+    +'<div class="row"><span class="lbl">취업가능</span><span class="val">'+(s['취업가능시기']||'-')+'</span></div>'
+    +'</div>'+introSection+'</div>'
+    +'<div class="footer"><span><span class="logo-mark">GTEC</span>경기과학기술대학교 외국인 유학생 취업연계 시스템</span>'
+    +'<span>출력일: '+new Date().toLocaleDateString('ko-KR')+'</span></div>'
+    +'<script>window.onload=function(){window.print();}<\/script>'
+    +'</body></html>';
+  w.document.write(html);
   w.document.close();
 }
+
 function updateYearFilter(id,data,field){const el=document.getElementById(id);if(!el)return;const cur=el.value;const years=[...new Set(data.map(d=>(d[field]||'').substring(0,4)).filter(y=>y&&y.length===4))].sort().reverse();el.innerHTML='<option value="">전체 연도</option>'+years.map(y=>`<option value="${y}" ${y===cur?'selected':''}>${y}년</option>`).join('');el.value=cur;}
-function copyURL(type){const base=window.location.href.split('#')[0];const map={company:'#reg-company',student:'#reg-student',myinfo:'#myinfo'};navigator.clipboard.writeText(base+(map[type]||'')).then(()=>{const t=document.getElementById('copy-toast');t.style.display='block';setTimeout(()=>{t.style.display='none';},2500);});}
+function copyURL(type){const base='https://gtec-kwork.github.io/kwork/';const map={company:'#reg-company',student:'#reg-student',myinfo:'#myinfo'};navigator.clipboard.writeText(base+(map[type]||'')).then(()=>{const t=document.getElementById('copy-toast');t.style.display='block';setTimeout(()=>{t.style.display='none';},2500);});}
 function resetForm(type){
   if(type==='company'){['c-name','c-bizno','c-address','c-ceo','c-tel','c-web','c-year','c-industry','c-biz','c-capital','c-revenue','c-workers','c-salary','c-hours','c-insurance','c-welfare','c-job','c-headcount','c-deadline','c-req','c-cname','c-ctel','c-cemail','c-pw','c-pw2'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('c-consent').checked=false;document.querySelector('input[name="c-workdays"][value="주5일"]').checked=true;document.getElementById('workdays-custom').style.display='none';}
   else{['s-nameko','s-nameen','s-birth','s-tel','s-email','s-dept','s-gpa','s-lang','s-cert','s-skills','s-job','s-loc','s-salary','s-avail','s-intro','s-pw','s-pw2'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});['s-nation','s-topik','s-english','s-visa'].forEach(id=>{document.getElementById(id).value='';});document.getElementById('s-status').value='재학';document.getElementById('reg-gd-wrap').style.display='none';['s-consent1','s-consent2','s-consent3'].forEach(id=>{document.getElementById(id).checked=false;});removePhoto();}
