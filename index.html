@@ -953,7 +953,7 @@ function selectMatchStudent(){
   const s=studentsData.find(s=>s._row===row);
   if(!s)return;
   const info=document.getElementById('m-student-info');
-  info.innerHTML='<strong>'+s['성명(한국어)']+'</strong> | '+s['학과']||'')+' | '+(s['현재비자상태']||'')+' | '+(s['이메일']||'');
+  info.innerHTML='<strong>'+s['성명(한국어)']+'</strong> | '+(s['학과']||'')+' | '+(s['현재비자상태']||'')+' | '+(s['이메일']||'');
   info.style.display='block';
 }
 function selectMatchCompany(){
@@ -1060,7 +1060,7 @@ function printResume(idx){
     +'</div>'+introSection+'</div>'
     +'<div class="footer"><span><span class="logo-mark">GTEC</span>경기과학기술대학교 외국인 유학생 취업연계 시스템</span>'
     +'<span>출력일: '+new Date().toLocaleDateString('ko-KR')+'</span></div>'
-    +'<script>window.onload=function(){window.print();}<\/script>'
+    +'<script>window.onload=function(){document.getElementById("print-date").textContent=new Date().toLocaleDateString("ko-KR");window.print();}<\/script>'
     +'</body></html>';
   w.document.write(html);
   w.document.close();
